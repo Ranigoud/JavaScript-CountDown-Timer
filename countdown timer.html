@@ -1,0 +1,83 @@
+
+   <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown Timer</title>
+    <style>
+        /* Simple CSS styling */
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+
+        #countdown {
+            width: 100px;
+            padding: 5px;
+            font-size: 18px;
+        }
+
+        #startButton {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        #startButton:hover {
+            background-color: #45a049;
+        }
+
+        #timerDisplay {
+            font-size: 24px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Countdown Timer</h1>
+    <label for="countdown">Countdown (seconds):</label>
+    <input type="number" id="countdown" placeholder="Enter secs">
+    <button id="startButton">Start Countdown</button>
+    <p id="timerDisplay">00 : 00</p>
+
+    <script>
+        const countdownInput = document.getElementById("countdown");
+        const startButton = document.getElementById("startButton");
+        const timerDisplay = document.getElementById("timerDisplay");
+
+        let myCountDown; // Private variable
+
+        startButton.addEventListener("click", () => {
+            clearInterval(myCountDown); // Stop previous countdown if any
+
+            let seconds = parseInt(countdownInput.value);
+
+            // Check if the input is a valid number once
+            if (isNaN(seconds) || seconds <= 0) {
+                timerDisplay.textContent="Please enter a valid number of seconds!";
+                return; // Exit the function if the input is invalid
+            }
+
+            // Start the countdown timer
+            myCountDown = setInterval(() => {
+                if (seconds <= 0) { // Time is up
+                    clearInterval(myCountDown);
+                    timerDisplay.textContent = "Time's up!";
+                } else { // Countdown continues action
+                    const minutes = Math.floor(seconds / 60); // Calculate minutes convert
+                    const remainingSeconds = seconds % 60; // Calculate remaining seconds add
+                    timerDisplay.textContent = 
+                        (minutes < 10 ? "0" : "") + minutes + ":" + //ternary operator below 10 add 0
+                        (remainingSeconds < 10 ? "0" : "") + remainingSeconds; // Format timer same
+                    seconds--; // Decrement seconds
+                }
+            }, 1000); // Update every second
+        });
+    </script>
+</body>
+</html>
